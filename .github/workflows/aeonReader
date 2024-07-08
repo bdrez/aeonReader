@@ -1,5 +1,5 @@
-publuc class aeonReader{
-public static void main (String[] args){
- System.out.println("HELlo world");
-}
+public class aeonReader{
+    public static void main (String [] args){
+        System.out.println("hello");
+    }
 }
