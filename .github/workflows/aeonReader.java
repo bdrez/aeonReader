@@ -5,20 +5,17 @@ import java.io.*;
 public class aeonReader {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        // Set to store unique genes
+        // Set to store no duplicates
         Set<String> genes = new HashSet<>();
         // List to store gene relationships
         List<String[]> relationships = new ArrayList<>();
 
-        // File paths
         File file = new File("C:\\Users\\blimy\\OneDrive\\Desktop\\modle3.txt");
         String newReinFilePath = "C:\\Users\\blimy\\OneDrive\\Desktop\\outputFile.rein";
         BufferedWriter reinWriter = new BufferedWriter(new FileWriter(newReinFilePath));
-
-        // Scanner to read the file
+        
         Scanner sc = new Scanner(file);
-
-        // Read the file once and store gene relationships
+        
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             if (line.startsWith("$")) {
@@ -37,13 +34,12 @@ public class aeonReader {
         }
         sc.close();
 
-        // Write unique genes to the output file
+        // write the genes with defualt settings
         for (String gene : genes) {
             reinWriter.write(gene + " (0..17); ");
         }
         reinWriter.newLine();
 
-        // Write gene relationships to the output file
         for (String[] relationship : relationships) {
             String one = relationship[0];
             String two = relationship[1];
