@@ -7,7 +7,6 @@ public class aeonReader {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // Set to store no duplicates
         Set<String> genes = new HashSet<>();
-        // List to store gene relationships
         List<String[]> relationships = new ArrayList<>();
 
         File file = new File("C:\\Users\\blimy\\OneDrive\\Desktop\\modle3.txt");
