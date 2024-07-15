@@ -5,48 +5,63 @@ import java.io.*;
 public class aeonReader {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        //ask the user for a rein file - and then write into it?
-        String one = "";
-        String two = "";
-        String three = "";
+        // Set to store unique genes
+        Set<String> genes = new HashSet<>();
+        // List to store gene relationships
+        List<String[]> relationships = new ArrayList<>();
+
+        // File paths
         File file = new File("C:\\Users\\blimy\\OneDrive\\Desktop\\modle3.txt");
-        //File file = new File("C:\\Users\\blimy\\OneDrive\\Desktop\\model4.txt");
-        //File file = new File ("C:\\Users\\blimy\\OneDrive\\Desktop\\model5.txt");
         String newReinFilePath = "C:\\Users\\blimy\\OneDrive\\Desktop\\outputFile.rein";
         BufferedWriter reinWriter = new BufferedWriter(new FileWriter(newReinFilePath));
 
+        // Scanner to read the file
         Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) { // and ir doesnt startb with $
-            String line = sc.nextLine(); //
-            String modifiedLine = line.replace("v_", "");
-            if ((line.charAt(0) == '$')) {
+
+        // Read the file once and store gene relationships
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.startsWith("$")) {
                 break;
-            }else{
-                String[] parts = modifiedLine.split(" ");
-                one = parts[0];
-                two = parts[1];
-                three = parts[2];
             }
+            String modifiedLine = line.replace("v_", "");
+            String[] parts = modifiedLine.split(" ");
+            if (parts.length >= 3) {
+                String one = parts[0];
+                String two = parts[1];
+                String three = parts[2];
+                genes.add(one);
+                genes.add(three);
+                relationships.add(new String[]{one, two, three});
+            }
+        }
+        sc.close();
+
+        // Write unique genes to the output file
+        for (String gene : genes) {
+            reinWriter.write(gene + " (0..17); ");
+        }
+        reinWriter.newLine();
+
+        // Write gene relationships to the output file
+        for (String[] relationship : relationships) {
+            String one = relationship[0];
+            String two = relationship[1];
+            String three = relationship[2];
             if (two.equals("->")) {
                 reinWriter.write(one + " " + three + " positive;");
-                //System.out.println(one +  " "+ three+ " positve");
             } else if (two.equals("-|")) {
                 reinWriter.write(one + " " + three + " negative;");
-                //System.out.println(one+ " "+ three + " negative");
             } else if (two.equals("->?")) {
                 reinWriter.write(one + " " + three + " positive optional;");
-                //System.out.println(one+ " "+ three + " positive optional");
             } else if (two.equals("-|?")) {
                 reinWriter.write(one + " " + three + " negative optional;");
-                //System.out.println(one+ " "+ three + " negative optional");
             } else {
-                reinWriter.write(one + " " + three + " ?;");
-                //System.out.println(one+ " "+ three + " ?");
-                //What should we do about the -?
+                reinWriter.write(one + " " + three + " positive;");
+                reinWriter.write(one + " " + three + " negative;");
             }
             reinWriter.newLine();
         }
         reinWriter.close();
     }
 }
-
